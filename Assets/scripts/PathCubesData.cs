@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class PathCubesData : MonoBehaviour {
 
+    //cached
+    private PathCube[] allPathCubes;
     private Dictionary<Vector2Int, PathCube> grid = new Dictionary<Vector2Int, PathCube>();
 
-    private PathCube[] allPathCubes;
+    //possible enemy movement directions
+    public static readonly Vector2Int[] possibleDirections =
+    {
+        Vector2Int.right,
+        Vector2Int.up,
+        Vector2Int.left,
+        Vector2Int.down,
+    };
 
     private static PathCubesData instance;
     public static PathCubesData Instance { get { return instance; } }
-
-    public static readonly Vector2Int[] possibleDirections =
-{
-        new Vector2Int(0,1),
-        new Vector2Int(1,0),
-        new Vector2Int(0,-1),
-        new Vector2Int(-1,0),
-    };
 
     private void Awake()
     {
@@ -40,7 +41,7 @@ public class PathCubesData : MonoBehaviour {
     {
         allPathCubes = FindObjectsOfType<PathCube>(); // find all waypoints in scene
 
-        foreach (PathCube waypoint in allPathCubes)  // fill dictionary with pairs Vector2Int (position) and Waypoint class
+        foreach (PathCube waypoint in allPathCubes)  // fill dictionary with pairs Vector2Int (position) and PathCube class (sort of waypoint)
         {
             Vector2Int waypointPos = waypoint.position;
             if (!grid.ContainsKey(waypointPos))
@@ -65,7 +66,7 @@ public class PathCubesData : MonoBehaviour {
         }
     }
 
-    public PathCube FindNearestPathCube(Vector3 position)
+    public PathCube FindNearestPathCube(Vector3 position) //nearest path cube to actual position of enemy, used when finding new path
     {
         var closestPathCube = allPathCubes[0];
         foreach (PathCube pathCube in allPathCubes)

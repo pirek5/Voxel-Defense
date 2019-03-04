@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour {
 
+    //config
     [SerializeField] private int health = 100;
-    private EnemyParticleManager enemyParticleManager;
 
     //cached
     UiBar healthbar;
+    private EnemyParticleManager enemyParticleManager;
 
-    //status
+    //state
     private int currentHealth;
 
     private void Start()

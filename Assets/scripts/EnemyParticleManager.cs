@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyParticleManager : MonoBehaviour {
 
+    //set in editor
     [SerializeField] ParticleSystem deathExplosionPS;
     [SerializeField] ParticleSystem goalExplosionPS;
 
@@ -20,7 +21,6 @@ public class EnemyParticleManager : MonoBehaviour {
         var explosionFX = Instantiate(goalExplosionPS, transform.position, Quaternion.identity);
         float delay = explosionFX.main.duration;
         Destroy(explosionFX.gameObject, delay);
-
     }
 
 }

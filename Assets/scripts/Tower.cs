@@ -94,12 +94,6 @@ public class Tower : MonoBehaviour {
         return closestEnemy;
     }
 
-    public void Stop() // after end of game
-    {
-        StopAllCoroutines();
-        targetEnemy = null;
-    }
-
     public void SwitchAutomaticManualAiming(bool isManual)
     {
         manualAiming = isManual;
@@ -116,6 +110,12 @@ public class Tower : MonoBehaviour {
             targetEnemy = null;
             Init();
         }
+    }
+
+    public void Stop() // after end of game
+    {
+        StopAllCoroutines();
+        targetEnemy = null;
     }
 }
 

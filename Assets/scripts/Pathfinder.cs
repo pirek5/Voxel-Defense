@@ -5,28 +5,15 @@ using UnityEngine;
 
 public class Pathfinder : MonoBehaviour {
 
-    private PathCube endWaypoint;
-
-    private Queue<PathCube> frontierWaypoints = new Queue<PathCube>();
-    private List<PathCube> exploredWaypoints = new List<PathCube>();
-    private List<PathCube> path = new List<PathCube>();
-
-    private void Awake()
-    {
-        endWaypoint = GameManager.Instance.endWaypoint;
-    }
-
     public List<PathCube> FindPath(PathCube startWaypoint)
     {
-        path = FindPath(startWaypoint, endWaypoint);
-        return path;
+        return FindPath(startWaypoint, GameManager.Instance.endWaypoint);
     }
 
     public List<PathCube> FindPath(PathCube startWaypoint, PathCube endWaypoint)
     {
-        path.Clear();
-        frontierWaypoints.Clear();
-        exploredWaypoints.Clear();
+        Queue<PathCube> frontierWaypoints = new Queue<PathCube>();
+        List<PathCube> exploredWaypoints = new List<PathCube>();
 
         frontierWaypoints.Enqueue(startWaypoint);
         while(frontierWaypoints.Count > 0)
@@ -39,21 +26,24 @@ public class Pathfinder : MonoBehaviour {
                     waypoint.exploredFrom = currentWaypoint;
                     if(waypoint == endWaypoint)
                     {
-                        List<PathCube> path = CreatePath(startWaypoint, waypoint);
-                        return path;
+                        return CreatePath(startWaypoint, waypoint);
                     }
                     frontierWaypoints.Enqueue(waypoint);
                 }
             }
             exploredWaypoints.Add(currentWaypoint);
         }
-        Debug.Log("Can't find path!");
+
+        //shouldnt happen
+        Debug.LogError("Can't find path!"); 
+        List<PathCube> path = new List<PathCube>();
         path.Add(endWaypoint);
         return path;
     }
 
     public List<PathCube> CreatePath(PathCube startWaypoint, PathCube endWaypoint)
     {
+        List<PathCube> path = new List<PathCube>();
         path.Add(endWaypoint);
         PathCube currentWaypoint = endWaypoint;
         while(currentWaypoint != startWaypoint)

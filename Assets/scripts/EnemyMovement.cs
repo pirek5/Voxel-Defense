@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
+    //płynne pruszanie się po scieżce utworzonej prez klasę pathfinder w postacie listy zawierajacej kolejne pathCube'y któe trzeba odwiedzić
+
 
     //config
     [SerializeField] public float movementSpeed = 10f;
+    [SerializeField] private float maxIdleTime = 2f;
 
     //cached
     private Pathfinder pathfinder;
@@ -33,12 +36,14 @@ public class EnemyMovement : MonoBehaviour {
         foreach (PathCube pathElement in path)
         {   
             currentTargetPathCube = pathElement;
-            float t1 = Time.time;  // służy do sprawdzenia czy obiekt nie zablokowal sie zbyt dlugo w jednym miejscu
-            while (currentTargetPathCube.occupupiedBy != null && currentTargetPathCube.occupupiedBy != this.gameObject)
+
+            // służy do sprawdzenia czy obiekt nie zablokowal sie zbyt dlugo w jednym miejscu
+            float t = 0f;
+            while (currentTargetPathCube.occupupiedBy != null && currentTargetPathCube.occupupiedBy != this.gameObject) 
             {
-                float maxIdleTime = 2f;
+                t += Time.deltaTime;
                 float t2 = Time.time;
-                if (t2 - t1 >= maxIdleTime) // wyszukanie nowej ścieżki
+                if (t >= maxIdleTime) // wyszukanie nowej ścieżki
                 {
                     StopAllCoroutines();
                     FindAndFollowPath();

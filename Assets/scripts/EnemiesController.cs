@@ -70,7 +70,7 @@ public class EnemiesController : MonoBehaviour {
         }
     }
 
-    private IEnumerator ProgresiveDifficult() //during gameplay monemnt speed incres and spawning deley decrese
+    private IEnumerator ProgresiveDifficult() //during gameplay movement speed increases and spawning deley decreases
     {
         yield return new WaitForSeconds(changeDifficultTime);
         while (true)
@@ -115,7 +115,7 @@ public class EnemiesController : MonoBehaviour {
         }
     }
 
-    public void StopEnemiesMovement() //end of game
+    public void StopEnemiesMovement() //in case of end of the current game
     {
         foreach (KeyValuePair<string, EnemyMovement> enemy in enemies)
         {

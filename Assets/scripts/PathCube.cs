@@ -36,8 +36,6 @@ public class PathCube : MonoBehaviour {
         }
     }
 
-
-
     private void Update()
     {
         if (occupupiedBy != null)
@@ -50,18 +48,9 @@ public class PathCube : MonoBehaviour {
         }
     }
 
-    //private void OnTriggerExit(Collider other) //TODO sprawdzić czy na paewno ne potrzebne dodano 26.02.2019
-    //{
-    //    print("test");
-    //    if (other.GetComponent<EnemyMovement>())
-    //    {
-    //        occupupiedBy = null;
-    //    }
-    //}
-
     public void MoveUpBlock() //Funkcja wywoływana przez klasę UserController w momencie kliknięcia na dany blok
     {
-        if (occupupiedBy == null) // jeżeli nie ma obiektu "enemy" na bloku
+        if (occupupiedBy == null)
         {
             StartCoroutine(MovingUpCoroutine()); // płynne podnoszenie do góry
             EnemiesController.Instance.FindNewPaths(this); // wyszukiwania nowych sciezek

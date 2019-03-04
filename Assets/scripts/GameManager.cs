@@ -14,13 +14,13 @@ public class GameManager : MonoBehaviour {
     public static int GridSize{ get { return gridSize; } }
     [SerializeField] public float pathCubeGoingUpTime, pathCubeGoingDownTime, towerTeleportReloadTime, blockMoverReloadTime;
 
-    //singleton
-    private static GameManager instance;
-    public static GameManager Instance { get { return instance; } }
-
     //state
     private bool scoreSent = false;
     public bool ScoreSent { get{return scoreSent;} set{scoreSent = value;} }
+
+    //singleton
+    private static GameManager instance;
+    public static GameManager Instance { get { return instance; } }
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
         else
         {
             instance = this;
-            UIMenu.SetActive(false); //TODO uncomment after debug
+            UIMenu.SetActive(false);
         }
     }
 
@@ -59,11 +59,10 @@ public class GameManager : MonoBehaviour {
         {
             tower.Stop();
         }
-
         LoseScreen.Open();
     }
 
-    public void OnOffUi()
+    public void OnOffUi() // Ui is disabled before start, when game is paused and after end of the game
     {
         UIMenu.SetActive(!UIMenu.activeSelf);
     }

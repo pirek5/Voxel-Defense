@@ -7,11 +7,11 @@ public class FriendlyBase : MonoBehaviour {
     //config
     [SerializeField] private int baseHealth = 20;
 
-    //status
-    public int currentBaseHealth;
-
     //cached
     UiBar healthbar;
+
+    //state
+    public int currentBaseHealth;
 
     //singleton
     private static FriendlyBase instance;

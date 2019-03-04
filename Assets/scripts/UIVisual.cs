@@ -49,7 +49,7 @@ public class UIVisual : MonoBehaviour {
             yield return null;
         }
         userController.isTeleportReady = true;
-        teleportFill.GetComponent<SmoothColorChange>().SwitchColors(teleportReloadingColor, readyColor, teleportLoadedColor, colorFlashTime, 0f, colorFlashTime);
+        teleportFill.GetComponent<SmoothColorChange>().SwitchColors(teleportReloadingColor, readyColor, teleportLoadedColor, colorFlashTime);
     }
 
     public void UseBlockMoverBar()
@@ -61,7 +61,7 @@ public class UIVisual : MonoBehaviour {
     {
         blockMoverFill.GetComponent<SmoothColorChange>().SwitchColors(blockMoverLoadedColor, blockMoverReloadingColor, 0f);
         float t = blockGoingUpTime;
-        while (Input.GetMouseButton(0))
+        while (Input.GetMouseButton(0)) 
         {
             blockMoverBar.value = t / blockGoingUpTime;
             t -= Time.deltaTime;
@@ -81,18 +81,18 @@ public class UIVisual : MonoBehaviour {
             yield return null;
         }
         userController.isBlockMoverReady = true;
-        blockMoverFill.GetComponent<SmoothColorChange>().SwitchColors(blockMoverReloadingColor, readyColor, blockMoverLoadedColor, colorFlashTime, 0f, colorFlashTime);
+        blockMoverFill.GetComponent<SmoothColorChange>().SwitchColors(blockMoverReloadingColor, readyColor, blockMoverLoadedColor, colorFlashTime);
     }
      
     public void TeleportNotReady()
     {
-        teleportFill.GetComponent<SmoothColorChange>().SwitchColors(teleportReloadingColor, notReadyColor, teleportReloadingColor, colorFlashTime, 0f, colorFlashTime);
-        print("teleport not ready"); //TODO zmiany kolorów na wzór highlighted;
+        teleportFill.GetComponent<SmoothColorChange>().SwitchColors(teleportReloadingColor, notReadyColor, teleportReloadingColor, colorFlashTime);
+        print("teleport not ready");
     }
 
     public void BlockMoverNotReady()
     {
-        blockMoverFill.GetComponent<SmoothColorChange>().SwitchColors(blockMoverReloadingColor, notReadyColor, blockMoverReloadingColor, colorFlashTime, 0f, colorFlashTime);
+        blockMoverFill.GetComponent<SmoothColorChange>().SwitchColors(blockMoverReloadingColor, notReadyColor, blockMoverReloadingColor, colorFlashTime);
         print("block mover not ready");
     }
 }

@@ -40,7 +40,7 @@ public class OnlineHighscoreManager : MonoBehaviour {
     public void PostRandomScore() //debug only
     {
         int randomscore = (int)Random.Range(1.0f, 10.0f);
-        PostScores("Maxim RZACK", randomscore);
+        PostScores("Tester", randomscore);
         
     }
 
@@ -63,24 +63,12 @@ public class OnlineHighscoreManager : MonoBehaviour {
         form.AddField("hashPost", hash);
 
         WWW sentScore = new WWW(addScoreURL, form);
-
-        if (LoseScreen.Instance != null)
-        {
-            LoseScreen.Instance.Connecting(true); //enable refresh icon
-        }
-
+        if (LoseScreen.Instance != null){ LoseScreen.Instance.Connecting(true); } //enable refresh icon
         yield return sentScore;
-
-        if (LoseScreen.Instance != null)
-        {
-            LoseScreen.Instance.Connecting(false); //disable refresh icon
-        }
+        if (LoseScreen.Instance != null){LoseScreen.Instance.Connecting(false); } //disable refresh icon
         if (sentScore.error != null)
         {
-            if (LoseScreen.Instance != null)
-            {
-                LoseScreen.Instance.ConnectionError();
-            }
+            if (LoseScreen.Instance != null){LoseScreen.Instance.ConnectionError(); }
             print("There was an error sending the highscores: " + sentScore.error);
         }
         else
@@ -98,24 +86,12 @@ public class OnlineHighscoreManager : MonoBehaviour {
     private IEnumerator GetScoresCoroutine()
     {
         WWW wwwHighscores = new WWW(highscoreURL);
-        if (HighscoreMenu.Instance != null)
-        {
-            HighscoreMenu.Instance.Connecting(true); //enable refresh icon
-        }
-
+        if (HighscoreMenu.Instance != null){ HighscoreMenu.Instance.Connecting(true); } //enable refresh icon
         yield return wwwHighscores;
-
-        if (HighscoreMenu.Instance != null) // disable refresh icon
-        {
-            HighscoreMenu.Instance.Connecting(false);
-        }
-
+        if (HighscoreMenu.Instance != null){ HighscoreMenu.Instance.Connecting(false); } // disable refresh icon
         if (wwwHighscores.error != null)
         {
-            if (HighscoreMenu.Instance != null)
-            {
-                HighscoreMenu.Instance.ConnectionError();
-            }
+            if (HighscoreMenu.Instance != null){HighscoreMenu.Instance.ConnectionError(); }
             Debug.Log("There was an error getting the high score: " + wwwHighscores.error);
         }
         else
@@ -127,9 +103,9 @@ public class OnlineHighscoreManager : MonoBehaviour {
             }
         }
     }
-    
- 
-    public string Md5Sum(string strToEncrypt) // This is used to create a md5sum - php script checks that only legit scores are submitted.
+
+    // This is used to create a md5sum - php script on server checks that and only legit scores are submitted.
+    public string Md5Sum(string strToEncrypt) 
     {
         System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
         byte[] bytes = ue.GetBytes(strToEncrypt);
