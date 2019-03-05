@@ -2,26 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using LevelManagement.Data;
 
 namespace LevelManagement
 {
     public class MainMenu : Menu<MainMenu>
     {
         [SerializeField] private InputField inputField;
-        private DataManager dataManager;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            dataManager = FindObjectOfType<DataManager>();
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            LoadData();
-        }
 
         public void OnPlayPressed()
         {
@@ -49,14 +35,5 @@ namespace LevelManagement
         {
             Application.Quit();
         }
-
-        private void LoadData()
-        {
-            if(dataManager != null && inputField != null)
-            {
-                dataManager.Load();
-            }       
-        }
-
     }
 }

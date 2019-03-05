@@ -4,19 +4,11 @@ using UnityEngine;
 
 public class TowerSpawner : MonoBehaviour {
 
-
-    //[SerializeField] int towersLimit = 5;
-    private GameObject towerPrefab;
-
     //set in editor
     [SerializeField] GameObject[] towers;
 
-    
     //cached data
     Queue<GameObject> towersQueue = new Queue<GameObject>();
-
-    //state
-    private bool automaticAiming = true;
 
     //singleton
     private static TowerSpawner instance;
@@ -32,7 +24,6 @@ public class TowerSpawner : MonoBehaviour {
         {
             instance = this;
         }
-        //StartCoroutine(AutoSpawn()); debug only
     }
 
     public void TowersInit()
@@ -49,7 +40,6 @@ public class TowerSpawner : MonoBehaviour {
         var lastTower = towersQueue.Dequeue();
         MakeBasePointPlaceable(lastTower);
         lastTower.transform.position = baseBlock.transform.position; // change place of the oldest tower to the new place
-        //lastTower.SetActive(true);
         lastTower.GetComponent<Tower>().Init();
         lastTower.GetComponent<TowerTeleporter>().TeleporterInit();
         SetBasePoint(lastTower, baseBlock);
@@ -66,20 +56,6 @@ public class TowerSpawner : MonoBehaviour {
         if(tower.GetComponent<Tower>().baseBlock != null)
         {
             tower.GetComponent<Tower>().baseBlock.isPlaceable = true;
-        }
-    }
-
-    IEnumerator AutoSpawn() // for debugging
-    {
-        int x = 0;
-        int y = 0;
-        while (true)
-        {
-            x += 10;
-            y += 10;
-            Vector3 spawnPosition = new Vector3(x, 0, y);
-            Instantiate(towerPrefab, spawnPosition, Quaternion.identity);
-            yield return new WaitForSeconds(1f);
         }
     }
 

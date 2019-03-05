@@ -6,7 +6,7 @@ using UnityEngine;
 public class HighlightSelectedPathCube : HighlightSelected {
 
     //config
-    [SerializeField] Color standardHighlight, blockedHighlight;
+    [SerializeField] Color standardHighlight = Color.yellow, blockedHighlight = Color.red;
 
     //cached
     private PathCube pathCube;

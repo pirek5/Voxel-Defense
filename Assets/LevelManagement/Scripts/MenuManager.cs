@@ -22,8 +22,6 @@ namespace LevelManagement
         private static MenuManager instance;
         public static MenuManager Instance { get { return instance; } }
 
-
-
         private void Awake()
         {
             if (instance != null)

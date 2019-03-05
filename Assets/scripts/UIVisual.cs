@@ -10,8 +10,10 @@ public class UIVisual : MonoBehaviour {
     [SerializeField] private GameObject teleportFill, blockMoverFill;
 
     //config
-    [SerializeField] private Color teleportReloadingColor, teleportLoadedColor, blockMoverReloadingColor, blockMoverLoadedColor, notReadyColor, readyColor; //TODO lista kolorów, teleport ładujacy się, teleport naładowany, block mover łądujący się, block mover naładowany, pasek nie gotowy, pasek gotowy
-    [SerializeField] private float colorsBlendingTimeAfterReload, colorFlashTime;
+    #pragma warning disable 0649
+    [SerializeField] private Color teleportReloadingColor, teleportLoadedColor, blockMoverReloadingColor, blockMoverLoadedColor, notReadyColor, readyColor;
+    #pragma warning restore 0649
+    [SerializeField] private float colorFlashTime;
 
     //cached
     private UserController userController;
