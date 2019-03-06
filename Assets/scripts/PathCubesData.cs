@@ -11,10 +11,10 @@ public class PathCubesData : MonoBehaviour {
     //possible enemy movement directions
     public static readonly Vector2Int[] possibleDirections =
     {
-        Vector2Int.right,
         Vector2Int.up,
-        Vector2Int.left,
+        Vector2Int.right,
         Vector2Int.down,
+        Vector2Int.left,
     };
 
     private static PathCubesData instance;

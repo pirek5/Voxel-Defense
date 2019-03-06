@@ -75,7 +75,7 @@ public class EnemiesController : MonoBehaviour {
         yield return new WaitForSeconds(changeDifficultTime);
         while (true)
         {
-            spawnDelay = spawnDelay / difficultFactor;
+            //spawnDelay = spawnDelay / difficultFactor;
             currentSpeed = currentSpeed * difficultFactor;
             foreach (KeyValuePair<string, EnemyMovement> enemy in enemies)
             {
