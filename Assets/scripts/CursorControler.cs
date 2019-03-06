@@ -2,34 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum CursorState { normalCursor, forbidden, interactive };
-
 public class CursorControler : MonoBehaviour {
 
-    ////set in editor
+    //set in editor
     [SerializeField] private LayerMask crosshairPlane;
-    //public Sprite[] cursors;
 
-    //config
-    [SerializeField] private float crosshairHeight;
+    //cached
+    SpriteRenderer spriteRenderer;
 
-    ////cached
-    //SpriteRenderer spriteRenderer;
-
-    //private void Awake()
-    //{
-    //    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    //}
-
-    //private void OnEnable()
-    //{
-    //    Cursor.visible = false;
-    //}
-
-    //private void OnDisable()
-    //{
-    //    Cursor.visible = true;
-    //}
+    private void Awake()
+    {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
 
     void Update()
     {
@@ -41,10 +25,11 @@ public class CursorControler : MonoBehaviour {
         }
     }
 
-    //public void SetCursor(CursorState cursorState)
-    //{
-    //    spriteRenderer.sprite = cursors[(int)cursorState];
-    //}
+    public void ChangeCursorToCrosshair(bool enabled)
+    {
+        spriteRenderer.enabled = enabled;
+        Cursor.visible = !enabled;
+    }
 
 
 }

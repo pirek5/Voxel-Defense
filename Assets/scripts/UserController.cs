@@ -16,7 +16,7 @@ public class UserController : MonoBehaviour {
     // cached
     private GameObject clickedGameObject;
     private UIVisual uiVisual;
-    //private CursorControler cursorController;
+    private CursorControler cursorController;
 
     //state
     public static string highlightedObject;
@@ -29,7 +29,7 @@ public class UserController : MonoBehaviour {
         {
             instance = this;
             uiVisual = GetComponent<UIVisual>();
-            //cursorController = GetComponentInChildren<CursorControler>();
+            cursorController = GetComponentInChildren<CursorControler>();
         }
         else
         {
@@ -56,11 +56,13 @@ public class UserController : MonoBehaviour {
         if (Input.GetMouseButtonDown(1) && TowerSpawner.Instance != null) //manual aiming
         {
             TowerSpawner.Instance.SwitchAutomaticManual(true);
+            cursorController.ChangeCursorToCrosshair(true);
         }
 
         if (Input.GetMouseButtonUp(1) && TowerSpawner.Instance != null) //automatic aiming
         {
             TowerSpawner.Instance.SwitchAutomaticManual(false);
+            cursorController.ChangeCursorToCrosshair(false);
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

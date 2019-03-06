@@ -9,6 +9,7 @@ namespace LevelManagement
     {
         private static int mainMenuIndex = 0;
         private static int tutorialIndex = 2;
+
         public static LevelLoader instance;
         public static bool levelIsReady = false;
 
