@@ -9,7 +9,7 @@ public class Tower : MonoBehaviour {
     [SerializeField] private Transform objectToPan;
 
     //config
-    [SerializeField] private float range = 50;
+    [SerializeField] public float range = 50;
     [SerializeField] private ParticleSystem plasmaPS;
     [SerializeField] private float searchForEnemyPeriod = 1f;
 
@@ -117,6 +117,7 @@ public class Tower : MonoBehaviour {
         StopAllCoroutines();
         targetEnemy = null;
     }
+
 }
 
 

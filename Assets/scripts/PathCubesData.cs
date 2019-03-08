@@ -35,6 +35,7 @@ public class PathCubesData : MonoBehaviour {
     private void Start()
     {
         SetWaypointsNeighbors();
+        StartCoroutine(DecreaseDeathAvoidanceFactorOverTime());
     }
 
     public void SetWaypointsNeighbors()
@@ -78,5 +79,19 @@ public class PathCubesData : MonoBehaviour {
         }
         return closestPathCube;
     }
+
+    private IEnumerator DecreaseDeathAvoidanceFactorOverTime()
+    {
+        while (true)
+        {
+            foreach (PathCube pathCube in allPathCubes)
+            {
+                pathCube.DecreaseDeathAvoidanceFactor();
+            }
+            yield return new WaitForSeconds(8f); //TODO magic number
+
+        }
+    }
+
 }
 

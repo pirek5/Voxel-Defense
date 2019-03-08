@@ -2,18 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathCube : MonoBehaviour {
+public class PathCube : MonoBehaviour { //TODO magic numbers
+    //config
+    [SerializeField] float towerIncreaseFactor = 70f;
+    [SerializeField] float deathIncreaseFactor = 15f;
+    [SerializeField] float neighborDeathIncreaseFactor = 7f;
 
     //cached
     private int gridSize = GameManager.GridSize;
-    private float fallingDownTime, movingUpTime;
 
     //state
-    [HideInInspector] public GameObject occupupiedBy = null;
     [HideInInspector] public Vector2Int position;
     [HideInInspector] public PathCube exploredFrom;
     [HideInInspector] public bool isBlocked;
+     public GameObject occupupiedBy = null;
     [HideInInspector] public List<PathCube> neighbors = new List<PathCube>();
+
+    [HideInInspector] public float distanceTraveled = Mathf.Infinity;
+    [HideInInspector] public float priority;
+
+    //higher factors means enemies will try to avoid that pathcubes
+    private float deathAvoidanceFactor = 0f; // every enemy death in certain pathCube increase factor in this particular pathcube
+    private float towerAvoidanceFactor = 0f; // tower presence in particular area increase factor
 
     private void Awake()
     {
@@ -22,21 +32,7 @@ public class PathCube : MonoBehaviour {
         position = new Vector2Int(xPos, yPos);
     }
 
-    private void Start()
-    {
-        LoadConfigData();
-    }
-
-    private void LoadConfigData()
-    {
-        if (GameManager.Instance != null)
-        {
-            fallingDownTime = GameManager.Instance.pathCubeGoingDownTime;
-            movingUpTime = GameManager.Instance.pathCubeGoingUpTime;
-        }
-    }
-
-    private void Update()
+    private void Update() //check if enemy left this pathCube
     {
         if (occupupiedBy != null)
         {
@@ -48,46 +44,48 @@ public class PathCube : MonoBehaviour {
         }
     }
 
-    public void MoveUpBlock() //Funkcja wywoływana przez klasę UserController w momencie kliknięcia na dany blok
+    public void IncreaseAvoidanceFactorByEnemies()
     {
-        if (occupupiedBy == null)
+        deathAvoidanceFactor = deathAvoidanceFactor + deathIncreaseFactor;
+        foreach(PathCube neighbor in neighbors)
         {
-            StartCoroutine(MovingUpCoroutine()); // płynne podnoszenie do góry
-            EnemiesController.Instance.FindNewPaths(this); // wyszukiwania nowych sciezek
-            isBlocked = true;  //zablokowany dla wyszukiwania ścieżek
+            neighbor.deathAvoidanceFactor = neighbor.deathAvoidanceFactor + neighborDeathIncreaseFactor;
         }
     }
 
-    IEnumerator MovingUpCoroutine()
+    public void DecreaseDeathAvoidanceFactor()
     {
-        Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(transform.position.x, GameManager.GridSize, transform.position.z); // wyżej niż aktualna pozycja o  1 jednostkę rozmieszczenia bloków
-        var t = 0f;
-       
-        while (Input.GetMouseButton(0))
-        {
-            t += Time.deltaTime / movingUpTime; //stosunek dotychczasowego podoszenia bloku do całkowitego czasu podnoszenia bloku
-            transform.position = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
-        }
-        StartCoroutine(FallingDownCoroutine(Mathf.Clamp(t, 0f, 1f))); //opadanie bloku, jeżeli blok nie był podniesiony do końca (opisuje to parametr "t") to wtedy opadanie będzie proporcjonalnie któtsze
+        deathAvoidanceFactor = deathAvoidanceFactor * 0.8f;
     }
 
-    IEnumerator FallingDownCoroutine(float timeFactor) //analogicznie do MovingUpCoroutine
+    public float GetAvoidanceFactor()
     {
-        Vector3 startPos = transform.position;
-        Vector3 endPos = new Vector3(transform.position.x, 0f, transform.position.z);
-        var currentFallingDownTime = fallingDownTime * timeFactor;
-        var t = 0f;
+        towerAvoidanceFactor = 0;
+        GameObject[] towers = TowerSpawner.Instance.towers;
 
-        while (t < 1)
+        foreach(GameObject tower in towers)
         {
-            t += Time.deltaTime / currentFallingDownTime;
-            transform.position = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
+            float distance = Vector3.Distance(tower.transform.position, transform.position);
+            if(distance > 50) { continue; }
+
+            towerAvoidanceFactor = towerAvoidanceFactor + (1f / distance * towerIncreaseFactor);
         }
-        isBlocked = false;
-        EnemiesController.Instance.FindNewPaths();
+        return towerAvoidanceFactor + deathAvoidanceFactor;
     }
 
+    public int CompareTo(PathCube other)
+    {
+        if (this.priority < other.priority)
+        {
+            return -1;
+        }
+        else if (this.priority > other.priority)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }

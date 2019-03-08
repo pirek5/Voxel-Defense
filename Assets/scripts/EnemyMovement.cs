@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour {
     //state
     private List<PathCube> currentPath;
     private bool findNewPath = false;
+    PathCube currentTargetPathCube;
 
     void Start ()
     {
@@ -32,7 +33,6 @@ public class EnemyMovement : MonoBehaviour {
 
     IEnumerator FollowPath(List<PathCube> path)
     {
-        PathCube currentTargetPathCube;
         foreach (PathCube pathElement in path)
         {   
             currentTargetPathCube = pathElement;
@@ -102,5 +102,13 @@ public class EnemyMovement : MonoBehaviour {
     public void StopMovement()
     {
         StopAllCoroutines();
+    }
+
+    public void OnDestroy()
+    {
+        if(currentTargetPathCube != null)
+        {
+            currentTargetPathCube.IncreaseAvoidanceFactorByEnemies();
+        }
     }
 }

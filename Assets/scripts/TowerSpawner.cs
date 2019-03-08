@@ -5,7 +5,7 @@ using UnityEngine;
 public class TowerSpawner : MonoBehaviour {
 
     //set in editor
-    [SerializeField] GameObject[] towers;
+    [SerializeField] public GameObject[] towers;
 
     //cached data
     Queue<GameObject> towersQueue = new Queue<GameObject>();
@@ -37,6 +37,8 @@ public class TowerSpawner : MonoBehaviour {
 
     public void MoveTower(TowerCube baseBlock)
     {
+        EnemiesController.Instance.FindNewPaths();
+
         var lastTower = towersQueue.Dequeue();
         MakeBasePointPlaceable(lastTower);
         lastTower.transform.position = baseBlock.transform.position; // change place of the oldest tower to the new place

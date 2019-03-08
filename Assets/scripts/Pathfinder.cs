@@ -12,23 +12,28 @@ public class Pathfinder : MonoBehaviour {
 
     public List<PathCube> FindPath(PathCube startWaypoint, PathCube endWaypoint)
     {
-        Queue<PathCube> frontierWaypoints = new Queue<PathCube>();
+        PriorityQueue frontierWaypoints = new PriorityQueue();
         List<PathCube> exploredWaypoints = new List<PathCube>();
 
+        startWaypoint.distanceTraveled = 0f;
         frontierWaypoints.Enqueue(startWaypoint);
         while(frontierWaypoints.Count > 0)
         {
             PathCube currentWaypoint = frontierWaypoints.Dequeue();
-            foreach(PathCube waypoint in currentWaypoint.neighbors) // check all neighbors of waypoint
+            if (currentWaypoint == endWaypoint)
             {
-                if(!frontierWaypoints.Contains(waypoint) && !exploredWaypoints.Contains(waypoint) && !waypoint.isBlocked)// && waypoint.occupupiedBy == null)
+                return CreatePath(startWaypoint, currentWaypoint);
+            }
+
+            foreach (PathCube neighbor in currentWaypoint.neighbors) // check all neighbors of waypoint
+            {
+                if (!frontierWaypoints.Contains(neighbor) && !exploredWaypoints.Contains(neighbor) && !neighbor.isBlocked) //if neighbor is not already explored
                 {
-                    waypoint.exploredFrom = currentWaypoint;
-                    if(waypoint == endWaypoint)
-                    {
-                        return CreatePath(startWaypoint, waypoint);
-                    }
-                    frontierWaypoints.Enqueue(waypoint);
+                    neighbor.exploredFrom = currentWaypoint;
+                    float newDistanceTraveled = currentWaypoint.distanceTraveled + 1f;
+                    neighbor.distanceTraveled = newDistanceTraveled;
+                    neighbor.priority = newDistanceTraveled + neighbor.GetAvoidanceFactor();
+                    frontierWaypoints.Enqueue(neighbor);
                 }
             }
             exploredWaypoints.Add(currentWaypoint);
@@ -54,4 +59,12 @@ public class Pathfinder : MonoBehaviour {
         path.Reverse();
         return path;
     }
+
+    //public static float GetDistance(PathCube source, PathCube target) - to A* algorithm
+    //{
+    //    int dx = Mathf.Abs(source.position.x - target.position.x);
+    //    int dy = Mathf.Abs(source.position.y - target.position.y);
+
+    //    return (dx + dy);
+    //}
 }

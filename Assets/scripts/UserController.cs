@@ -101,11 +101,11 @@ public class UserController : MonoBehaviour {
             }
 
         }
-        else if (clickedGameObject.GetComponentInChildren<PathCube>())
+        else if (clickedGameObject.GetComponentInChildren<PathCubeMovement>())
         {
             if (isBlockMoverReady)
             {
-                clickedGameObject.GetComponentInChildren<PathCube>().MoveUpBlock();
+                clickedGameObject.GetComponentInChildren<PathCubeMovement>().MoveUpBlock();
                 uiVisual.UseBlockMoverBar();
             }
             else
