@@ -17,7 +17,6 @@ public class TutorialController : MonoBehaviour {
     [SerializeField] private FlashingObject[] flashingObjects4;
     [SerializeField] private FlashingObject[] flashingObjects5;
     [SerializeField] private FlashingObject[] flashingObjects6;
-    [SerializeField] private FlashingObject[] flashingObjects7;
 
     [SerializeField] GameObject nextButton;
     [SerializeField] GameObject backToMainMenu;
@@ -68,7 +67,6 @@ public class TutorialController : MonoBehaviour {
         allFlashingObjects.Add(flashingObjects4);
         allFlashingObjects.Add(flashingObjects5);
         allFlashingObjects.Add(flashingObjects6);
-        allFlashingObjects.Add(flashingObjects7);
         NextStep();
     }
 

@@ -88,7 +88,7 @@ public class PathCubesData : MonoBehaviour {
             {
                 pathCube.DecreaseDeathAvoidanceFactor();
             }
-            yield return new WaitForSeconds(8f); //TODO magic number
+            yield return new WaitForSeconds(5f); //TODO magic number
 
         }
     }
